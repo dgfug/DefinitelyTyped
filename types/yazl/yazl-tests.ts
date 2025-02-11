@@ -1,5 +1,5 @@
 import { ZipFile } from "yazl";
-import fs = require('fs');
+import fs = require("fs");
 
 const zipfile = new ZipFile();
 zipfile.addFile("file1.txt", "file1.txt");
@@ -8,6 +8,12 @@ zipfile.addFile("path/to/file.txt", "path/in/zipfile.txt");
 // pipe() can be called any time after the constructor
 // $ExpectType ReadableStream
 zipfile.outputStream;
+
+// $ExpectType ZipFile
+zipfile.on("error", (err) => {
+    console.error("error", err);
+});
+
 zipfile.outputStream.pipe(fs.createWriteStream("output.zip")).on("close", () => {
     console.log("done");
 });
